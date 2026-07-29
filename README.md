@@ -17,7 +17,7 @@ Building deployable AI systems — from computer vision and multimodal intellige
 &nbsp;&nbsp;•&nbsp;&nbsp;
 <b>Research @ IIT Hyderabad</b>
 &nbsp;&nbsp;•&nbsp;&nbsp;
-<b>Founder @ Optisense AI</b>
+<b>Building @ Optisense AI</b>
 </p>
 
 <p>
