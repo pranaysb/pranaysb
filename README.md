@@ -1,37 +1,18 @@
-# GitHub Analytics
+### Hi, I'm Pranay 👋
 
-<div align="center">
+> Building intelligent systems that move from research to real-world deployment.
 
-<img width="49%" src="https://github-readme-stats.vercel.app/api?username=pranaysb&show_icons=true&theme=tokyonight&hide_border=true&rank_icon=github"/>
+`Autonomous Agents` &nbsp;•&nbsp; `Edge Computer Vision` &nbsp;•&nbsp; `LLM Evals` &nbsp;•&nbsp; `Systems`
 
-<img width="49%" src="https://github-readme-streak-stats.herokuapp.com/?user=pranaysb&theme=tokyonight&hide_border=true"/>
-
-<br/><br/>
-
-<img width="40%" src="https://github-readme-stats.vercel.app/api/top-langs/?username=pranaysb&layout=compact&theme=tokyonight&hide_border=true"/>
-
-</div>
+<p align="left">
+  <a href="https://linkedin.com/in/pranaysb"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white" height="20" alt="LinkedIn" /></a>&nbsp;
+  <a href="mailto:pranaysb2006@gmail.com"><img src="https://img.shields.io/badge/Gmail-EA4335?style=flat&logo=gmail&logoColor=white" height="20" alt="Gmail" /></a>
+</p>
 
 ---
 
-# Connect
+<br/>
 
-<p align="center">
-
-<a href="https://linkedin.com/in/pranaysb">
-<img src="https://img.shields.io/badge/LinkedIn-Pranay%20S%20B-blue?style=for-the-badge&logo=linkedin"/>
-</a>
-
-<a href="mailto:pranaysb2006@gmail.com">
-<img src="https://img.shields.io/badge/Gmail-pranaysb2006%40gmail.com-red?style=for-the-badge&logo=gmail"/>
-</a>
-
-<a href="https://github.com/pranaysb">
-<img src="https://img.shields.io/badge/GitHub-pranaysb-black?style=for-the-badge&logo=github"/>
-</a>
-
-</p>
-
-<p align="center">
-<i>Building intelligent systems that move from research to real-world deployment.</i>
-</p>
+<div align="center">
+  <img src="./assets/github-stats.svg" alt="GitHub Analytics" width="100%" />
+</div>

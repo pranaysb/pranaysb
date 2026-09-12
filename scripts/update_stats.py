@@ -1,0 +1,145 @@
+import json
+import subprocess
+import os
+
+def fetch_stats(username="pranaysb"):
+    cmd = f'''gh api graphql -f query='
+    query {{
+      user(login: "{username}") {{
+        contributionsCollection {{
+          totalCommitContributions
+          totalPullRequestContributions
+          totalIssueContributions
+          restrictedContributionsCount
+          contributionCalendar {{
+            totalContributions
+          }}
+        }}
+        repositories(first: 100, ownerAffiliations: OWNER, isFork: false) {{
+          totalCount
+          nodes {{
+            languages(first: 5, orderBy: {{field: SIZE, direction: DESC}}) {{
+              edges {{
+                size
+                node {{
+                  name
+                  color
+                }}
+              }}
+            }}
+          }}
+        }}
+      }}
+    }}' '''
+    
+    output = subprocess.check_output(cmd, shell=True).decode('utf-8')
+    data = json.loads(output)['data']['user']
+    
+    commits = data['contributionsCollection']['totalCommitContributions']
+    prs = data['contributionsCollection']['totalPullRequestContributions']
+    
+    return {
+        'contributions': '690+',
+        'streak': '16',
+        'commits': commits,
+        'prs': prs
+    }
+
+def render_svg(stats, output_path="assets/github-stats.svg"):
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    
+    ts_w = 193
+    py_w = 89
+    js_w = 22
+    other_w = 16
+
+    svg = f'''<svg width="800" height="160" viewBox="0 0 800 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .bg {{ fill: #0d1117; stroke: #30363d; stroke-width: 1; rx: 12px; }}
+    .label {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; font-size: 11px; fill: #8b949e; font-weight: 400; }}
+    .value {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; font-size: 20px; fill: #f0f6fc; font-weight: 600; }}
+    .title {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; font-size: 13px; fill: #c9d1d9; font-weight: 600; letter-spacing: 0.2px; }}
+    .lang-text {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; font-size: 12px; fill: #c9d1d9; }}
+    .lang-pct {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; font-size: 11px; fill: #8b949e; }}
+    .icon {{ fill: #58a6ff; }}
+  </style>
+
+  <!-- Background Card -->
+  <rect width="800" height="160" rx="12" class="bg" />
+
+  <!-- Left Column: Metrics -->
+  <g transform="translate(35, 28)">
+    <!-- Stat 1: Total Contributions -->
+    <g transform="translate(0, 0)">
+      <circle cx="12" cy="12" r="12" fill="#1f6feb" fill-opacity="0.15" />
+      <path class="icon" transform="translate(4, 4) scale(0.9)" d="M8 0a8 8 0 100 16A8 8 0 008 0zm.75 4.75a.75.75 0 00-1.5 0v3.5c0 .414.336.75.75.75h2.5a.75.75 0 000-1.5h-1.75V4.75z"/>
+      <text x="32" y="12" class="value">{stats['contributions']}</text>
+      <text x="32" y="27" class="label">Contributions</text>
+    </g>
+
+    <!-- Stat 2: Current Streak -->
+    <g transform="translate(200, 0)">
+      <circle cx="12" cy="12" r="12" fill="#f0883e" fill-opacity="0.15" />
+      <path fill="#f0883e" transform="translate(4, 4) scale(0.9)" d="M8 0c-.23 0-.44.11-.58.3C6.07 2.12 4.4 4.58 4.4 6.75 4.4 9.1 6.01 11 8 11s3.6-1.9 3.6-4.25c0-2.17-1.67-4.63-3.02-6.45A.75.75 0 008 0zm0 3.25c.87 1.25 2.1 2.92 2.1 3.5 0 1.24-.94 2.25-2.1 2.25s-2.1-1.01-2.1-2.25c0-.58 1.23-2.25 2.1-3.5z"/>
+      <text x="32" y="12" class="value">{stats['streak']} <tspan font-size="14" font-weight="400" fill="#8b949e">days</tspan></text>
+      <text x="32" y="27" class="label">Current Streak</text>
+    </g>
+
+    <!-- Stat 3: Commits -->
+    <g transform="translate(0, 62)">
+      <circle cx="12" cy="12" r="12" fill="#238636" fill-opacity="0.15" />
+      <path fill="#3fb950" transform="translate(4, 4) scale(0.9)" d="M10.5 8a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zm1.45-1.25A3.992 3.992 0 008.75 4.05V2.75a.75.75 0 00-1.5 0v1.3A3.992 3.992 0 004.05 6.75H2.75a.75.75 0 000 1.5h1.3c.31 1.09 1.16 1.94 2.25 2.25v1.3a.75.75 0 001.5 0v-1.3c1.09-.31 1.94-1.16 2.25-2.25h1.3a.75.75 0 000-1.5h-1.3z"/>
+      <text x="32" y="12" class="value">{stats['commits']}</text>
+      <text x="32" y="27" class="label">Commits</text>
+    </g>
+
+    <!-- Stat 4: Pull Requests -->
+    <g transform="translate(200, 62)">
+      <circle cx="12" cy="12" r="12" fill="#a371f7" fill-opacity="0.15" />
+      <path fill="#bc8cff" transform="translate(4, 4) scale(0.9)" d="M7.177 3.073L9.573.677A.25.25 0 0110 .854v4.792a.25.25 0 01-.427.177L7.177 3.427a.25.25 0 010-.354zM3.75 2.5a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5zm-1.25 7.5A2.25 2.25 0 103.75 14.5a2.25 2.25 0 00-1.25-4.5z"/>
+      <text x="32" y="12" class="value">{stats['prs']}</text>
+      <text x="32" y="27" class="label">Pull Requests</text>
+    </g>
+  </g>
+
+  <!-- Divider -->
+  <line x1="410" y1="25" x2="410" y2="135" stroke="#21262d" stroke-width="1" />
+
+  <!-- Right Column: Languages -->
+  <g transform="translate(440, 26)">
+    <text x="0" y="14" class="title">Top Languages</text>
+
+    <!-- Progress Bar (Width 320) -->
+    <g transform="translate(0, 30)">
+      <rect x="0" y="0" width="320" height="8" rx="4" fill="#21262d" />
+      <rect x="0" y="0" width="{ts_w}" height="8" rx="4" fill="#3178c6" />
+      <rect x="{py_w}" y="0" width="{py_w}" height="8" fill="#3572A5" />
+      <rect x="{js_w}" y="0" width="{js_w}" height="8" fill="#f1e05a" />
+      <rect x="{other_w}" y="0" width="{other_w}" height="8" rx="4" fill="#f34b7d" />
+    </g>
+
+    <!-- Legend -->
+    <g transform="translate(0, 62)">
+      <circle cx="4" cy="4" r="4" fill="#3178c6" />
+      <text x="14" y="7" class="lang-text">TypeScript <tspan class="lang-pct">60.3%</tspan></text>
+
+      <circle cx="164" cy="4" r="4" fill="#3572A5" />
+      <text x="174" y="7" class="lang-text">Python <tspan class="lang-pct">27.9%</tspan></text>
+    </g>
+
+    <g transform="translate(0, 86)">
+      <circle cx="4" cy="4" r="4" fill="#f1e05a" />
+      <text x="14" y="7" class="lang-text">JavaScript <tspan class="lang-pct">6.8%</tspan></text>
+
+      <circle cx="164" cy="4" r="4" fill="#f34b7d" />
+      <text x="174" y="7" class="lang-text">C++ / Others <tspan class="lang-pct">5.0%</tspan></text>
+    </g>
+  </g>
+</svg>'''
+
+    with open(output_path, 'w') as f:
+        f.write(svg)
+
+if __name__ == "__main__":
+    stats = fetch_stats()
+    render_svg(stats)
