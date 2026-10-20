@@ -14,7 +14,6 @@
 ---
 - Leading **Optisense AI** — vision-sensing prototype  for production
 - Researched at the **Visual Intelligence and Learning Lab, IIT Hyderabad**
-- Shipping fixes upstream to **NVIDIA**, **OpenTelemetry**, **Roboflow**, **Voxel51**, **Kornia** and **MTEB**
 <div align="center">
   <img src="./assets/github-stats.svg" alt="GitHub Analytics" width="100%" />
 </div>
